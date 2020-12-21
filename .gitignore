@@ -1,2 +1,5 @@
 # Ignore IntelliJ Files
 .idea
+Pipfile
+Pipfile.lock
+
