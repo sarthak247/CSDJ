@@ -4,9 +4,7 @@ import pafy
 import os
 import subprocess
 import shutil
-
-csgodir = ""
-
+import platform
 
 def search(name):
     # To get all the video links
@@ -27,24 +25,35 @@ def download(name):
     # Downloading it with output to console
     dl.download(quiet=False, filepath=path)
     #os.rename(title, name)
-    ffmpeg_cmd = "ffmpeg -i " + "'" + name + '.webm' + "'" + \
-        " -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact  voice_input.wav -y"
+    if platform.system()=='Windows':
+    	ffmpeg_cmd = f"{os.getcwd()}\\ffmpegw.exe -i " + '"' + name + '.webm' + '"' + \
+        	" -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + f'"{os.path.join(os.getcwd(),"voice_input.wav")}"' +  " -y"
+    	print(ffmpeg_cmd)
+    	subprocess.call(f"{ffmpeg_cmd}",shell=True)
     # Call to ffmpeg to run the conversion
-    subprocess.call(ffmpeg_cmd, shell=True)
+    elif platform.system()=="Linux":
+    	ffmpeg_cmd = "./ffmpeglinux -i " + "'" + name + '.webm' + "'" + \
+        	" -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact  voice_input.wav -y"
+    	subprocess.call(ffmpeg_cmd, shell=True)
+    
 
 
 def movetodir():
     try:
         cfg = open('csdj.cfg')
         dest = str(cfg.read())
-        shutil.copy(f'{os.getcwd()}/voice_input.wav', f"{dest}/")
+        if platform.system()=='Windows':
+            path = os.path.join(os.getcwd(),'voice_input.wav')
+            shutil.copy(path, f"{dest}\\")
+        elif platform.system()=="Linux":
+            shutil.copy(f'{os.getcwd()}/voice_input.wav', f"{dest}/")
         print("Copied!")
+        cfg.close()
     except FileNotFoundError:  # File does not exist!
         filedir = input("Enter your CSGO install dir : ")
         cfg = open('csdj.cfg', 'w')
         cfg.write(filedir)
         movetodir()
-    finally:
         cfg.close()
 
 
