@@ -1,3 +1,4 @@
+
 from youtube_search import YoutubeSearch
 import json
 import pafy
@@ -5,6 +6,7 @@ import os
 import subprocess
 import shutil
 import platform
+
 
 def search(name):
     # To get all the video links
@@ -26,7 +28,7 @@ def download(name):
     dl.download(quiet=False, filepath=path)
     #os.rename(title, name)
     if platform.system()=='Windows':
-    	ffmpeg_cmd = f"{os.getcwd()}\\ffmpegw.exe -i " + '"' + name + '.webm' + '"' + \
+    	ffmpeg_cmd = f"{os.path.join(os.getcwd(),'ffmpegw.exe')} -i " + '"' + name + '.webm' + '"' + \
         	" -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + f'"{os.path.join(os.getcwd(),"voice_input.wav")}"' +  " -y"
     	print(ffmpeg_cmd)
     	subprocess.call(f"{ffmpeg_cmd}",shell=True)
@@ -40,7 +42,7 @@ def download(name):
 
 def movetodir():
     try:
-        cfg = open('csdj.cfg')
+        cfg = open('csdir.cfg')
         dest = str(cfg.read())
         if platform.system()=='Windows':
             path = os.path.join(os.getcwd(),'voice_input.wav')
@@ -48,14 +50,24 @@ def movetodir():
         elif platform.system()=="Linux":
             shutil.copy(f'{os.getcwd()}/voice_input.wav', f"{dest}/")
         print("Copied!")
+        if os.path.exists(os.path.join(dest,'csgo','cfg','csdj.cfg'))==False:
+           shutil.copy(f'{os.path.join(os.getcwd(),"csdj.cfg")}', f"{os.path.join(dest,'csgo','cfg')}")
         cfg.close()
     except FileNotFoundError:  # File does not exist!
-        filedir = input("Enter your CSGO install dir : ")
-        cfg = open('csdj.cfg', 'w')
-        cfg.write(filedir)
-        movetodir()
+        dest = input("Enter your CSGO install dir : ")
+        cfg = open('csdir.cfg', 'w')
+        cfg.write(dest)
+        if platform.system()=='Windows':
+            path = os.path.join(os.getcwd(),'voice_input.wav')
+            shutil.copy(path, f"{dest}\\")
+        elif platform.system()=="Linux":
+            shutil.copy(f'{os.getcwd()}/voice_input.wav', f"{dest}/")
+        if os.path.exists(os.path.join(dest,'csgo','cfg','csdj.cfg'))==False:
+           shutil.copy(f'{os.path.join(os.getcwd(),"csdj.cfg")}', f"{os.path.join(dest,'csgo','cfg')}")
+        print("Copied!")
         cfg.close()
 
 
 download(input("Enter song you want! : "))
 movetodir()
+
