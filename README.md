@@ -41,6 +41,7 @@ It is usually the following-
  
  ### I have a feature request / a doubt / wanna meet the devs!
  Join our Discord!
+ 
  [Our Discord Server](https://discord.gg/JZfhXuCw4J)
  
  ### Do you accept pull requests?
