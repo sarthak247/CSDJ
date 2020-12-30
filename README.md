@@ -10,6 +10,9 @@ Features
 2. Songs get auto cached!
 3. GUI(coming soon!)
 
+### How to Download?
+Go to [CSDJ Releases](https://github.com/sarthak247/CSDJ/releases/latest) and download the appropriate version for your operating system. Or clone this repository and run the Python script.
+
 ### How to use?
 Just extract, run CSDJ.exe or ./csdj, and profit!
 Enter the song name, it supports caching so you dont redownload it everytime.
