@@ -43,9 +43,7 @@ It is usually the following-
  It is a false positive. We are using system calls to copy files to your C: drive, thus some antivirus may detect it. We haven't obfuscated the code so that you can decompile the code to check out what happens under the hood!
  
  ### I have a feature request / a doubt / wanna meet the devs!
- Join our Discord!
- 
- [Our Discord Server](https://discord.gg/JZfhXuCw4J)
+ [Join our Discord!](https://discord.gg/JZfhXuCw4J)
  
  ### Do you accept pull requests?
  Yes we do. Submit your pull request and we'll get back to it!
